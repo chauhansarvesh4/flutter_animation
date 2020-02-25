@@ -1,0 +1,75 @@
+import 'package:flutter/material.dart';
+
+class TransitionDetailScreen extends StatefulWidget {
+  final String transitionName;
+
+  TransitionDetailScreen(this.transitionName);
+
+  @override
+  _TransitionDetailScreenState createState() => _TransitionDetailScreenState();
+}
+
+class _TransitionDetailScreenState extends State<TransitionDetailScreen>
+    with SingleTickerProviderStateMixin {
+  Animation _animation;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.transitionName),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              _controller.isCompleted
+                  ? _controller.reverse()
+                  : _controller.forward();
+            },
+            icon: Icon(Icons.flash_on),
+          )
+        ],
+      ),
+      body: Container(
+          width: size.width,
+          height: size.height,
+          alignment: Alignment.center,
+          child: _filterTransitionAnimation()),
+    );
+  }
+
+  _filterTransitionAnimation() {
+    final RelativeRectTween relativeRectTween = RelativeRectTween(
+      begin: RelativeRect.fromLTRB(60, 60, 60, 60),
+      end: RelativeRect.fromLTRB(0, 0, 0, 0),
+    );
+    _animation = relativeRectTween.animate(
+        CurvedAnimation(parent: _controller, curve: Curves.elasticInOut));
+    return Container(
+      height: 300,
+      child: Stack(
+        children: <Widget>[
+          PositionedTransition(
+            rect: _animation,
+            child: Container(
+              child: Container(
+                width: 200,
+                height: 200,
+                padding: EdgeInsets.all(20),
+                child: FlutterLogo(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

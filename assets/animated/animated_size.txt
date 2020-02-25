@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+
+class AnimatedDetailScreen extends StatefulWidget {
+  final String animatedType;
+
+  AnimatedDetailScreen(this.animatedType);
+
+  @override
+  _AnimatedDetailScreenState createState() => _AnimatedDetailScreenState();
+}
+
+class _AnimatedDetailScreenState extends State<AnimatedDetailScreen>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  bool _first = true;
+  double _width = 200;
+  double _height = 200;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.animatedType),
+      ),
+      body: Center(
+        child: _filterAnimated(),
+      ),
+    );
+  }
+
+  _filterAnimated() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          height: 300,
+          child: Center(
+            child: AnimatedSize(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.fastOutSlowIn,
+              child: Container(
+                width: _width,
+                height: _height,
+                color: Colors.blue,
+              ),
+              vsync: this,
+            ),
+          ),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        RaisedButton(
+          child: const Text('CLICK ME!'),
+          onPressed: () {
+            setState(() {
+              _width = _first ? 220 : 200;
+              _height = _first ? 160 : 200;
+
+              _first = !_first;
+            });
+          },
+        ),
+      ],
+    );
+  }
+}

@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+
+class AnimatedDetailScreen extends StatefulWidget {
+  final String animatedType;
+
+  AnimatedDetailScreen(this.animatedType);
+
+  @override
+  _AnimatedDetailScreenState createState() => _AnimatedDetailScreenState();
+}
+
+class _AnimatedDetailScreenState extends State<AnimatedDetailScreen>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  Color _color = Colors.blue;
+  double _size = 30;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.animatedType),
+      ),
+      body: Center(
+        child: _filterAnimated(),
+      ),
+    );
+  }
+
+  _filterAnimated() {
+    return InkWell(
+      onTap: () {
+        if (_size == 50) {
+          _size = 30;
+          _color = Colors.red;
+        } else {
+          _size = 50;
+          _color = Colors.green;
+        }
+        setState(() {});
+      },
+      child: AnimatedDefaultTextStyle(
+        duration: Duration(seconds: 1),
+        style: TextStyle(
+          color: _color,
+          fontSize: _size,
+        ),
+        child: Text("Hello Flutter"),
+      ),
+    );
+  }
+}

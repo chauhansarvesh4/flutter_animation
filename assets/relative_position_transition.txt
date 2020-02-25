@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+
+import '../syntax_screen.dart';
+
+class TransitionDetailScreen extends StatefulWidget {
+  final String transitionName;
+
+  TransitionDetailScreen(this.transitionName);
+
+  @override
+  _TransitionDetailScreenState createState() => _TransitionDetailScreenState();
+}
+
+class _TransitionDetailScreenState extends State<TransitionDetailScreen>
+    with SingleTickerProviderStateMixin {
+  Animation _animation;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.transitionName),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return SyntaxScreen(widget.transitionName);
+              }));
+            },
+            icon: Icon(Icons.code),
+          ),
+          IconButton(
+            onPressed: () {
+              _controller.isCompleted
+                  ? _controller.reverse()
+                  : _controller.forward();
+            },
+            icon: Icon(Icons.flash_on),
+          )
+        ],
+      ),
+      body: Container(
+          width: size.width,
+          height: size.height,
+          alignment: Alignment.center,
+          child: _filterTransitionAnimation()),
+    );
+  }
+
+  _filterTransitionAnimation() {
+    final RectTween rectTween = RectTween(
+      begin: Rect.fromLTRB(30, 30, 0, 0),
+      end: Rect.fromLTRB(0, 0, 20, 20),
+    );
+    _animation = rectTween
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+    return Stack(
+      children: <Widget>[
+        RelativePositionedTransition(
+          rect: _animation,
+          size: Size(200, 200),
+          child: FlutterLogo(
+            size: 200,
+          ),
+        ),
+      ],
+    );
+  }
+}

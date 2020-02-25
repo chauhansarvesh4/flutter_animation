@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+
+class TransitionDetailScreen extends StatefulWidget {
+  final String transitionName;
+
+  TransitionDetailScreen(this.transitionName);
+
+  @override
+  _TransitionDetailScreenState createState() => _TransitionDetailScreenState();
+}
+
+class _TransitionDetailScreenState extends State<TransitionDetailScreen>
+    with SingleTickerProviderStateMixin {
+  Animation _animation;
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 800));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.transitionName),
+        actions: <Widget>[
+          IconButton(
+            onPressed: () {
+              _controller.isCompleted
+                  ? _controller.reverse()
+                  : _controller.forward();
+            },
+            icon: Icon(Icons.flash_on),
+          )
+        ],
+      ),
+      body: Container(
+          width: size.width,
+          height: size.height,
+          alignment: Alignment.center,
+          child: _filterTransitionAnimation()),
+    );
+  }
+
+  _filterTransitionAnimation() {
+    _animation = Tween<AlignmentGeometry>(
+            begin: Alignment.topLeft, end: Alignment.bottomRight)
+        .animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+    return AlignTransition(
+      alignment: _animation,
+      child: FlutterLogo(
+        size: 200,
+      ),
+    );
+  }
+}

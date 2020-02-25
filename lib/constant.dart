@@ -1,0 +1,53 @@
+class Constant {
+  static const TRANSITION_SIZE = "SIZE TRANSITION";
+  static const TRANSITION_FADE = "FADE TRANSITION";
+  static const TRANSITION_ALIGN = "ALIGN TRANSITION";
+  static const TRANSITION_SCALE = "SCALE TRANSITION";
+  static const TRANSITION_ROTATE = "ROTATE TRANSITION"; //
+  static const TRANSITION_POSITIOIN = "POSITION TRANSITION";
+  static const TRANSITION_SLIDE = "SLIDE TRANSITIOIN";
+  static const TRANSITION_DECORATED_BOX = "DECORATED BOX TRANSITION";
+  static const TRANSITION_DEFAULT_TEXT_STYLE = "DEFAULT TEXTSTYPE TRANSITION";
+  static const TRANSITION_RELATIVE_POSTIOIN = "RELATIVE POSITION TRANSITION";
+
+  static const List<String> TRANSITION_LIST = [
+    TRANSITION_SIZE,
+    TRANSITION_FADE,
+    TRANSITION_ALIGN,
+    TRANSITION_SCALE,
+    TRANSITION_ROTATE,
+    TRANSITION_POSITIOIN,
+    TRANSITION_SLIDE,
+    TRANSITION_DECORATED_BOX,
+    TRANSITION_DEFAULT_TEXT_STYLE,
+    TRANSITION_RELATIVE_POSTIOIN,
+  ];
+
+  static const ANIMATED_BUILDER = "AnimatedBuilder";
+  static const ANIMATED_CONTAINER = "AnimatedContainer";
+  static const ANIMATED_CROSSFADE = "AnimatedCrossFade";
+  static const ANIMATED_DEFAULT_TEXTSTYLE = "AnimatedDefaultTextstyle";
+  static const ANIMATED_LIST_STATE = "AnimatedListState";
+  static const ANIMATED_ALIGN = "AnimatedAlign";
+  static const ANIMATED_OPACITY = "AnimatedOpacity";
+  static const ANIMATED_PHYSICAL_MODEL = "AnimatedPhysicalModel";
+  static const ANIMATED_POSITION = "AnimatedPosition";
+  static const ANIMATED_SIZE = "AnimatedSize";
+  static const ANIMATED_WIDGET = "AnimatedWidget";
+  static const ANIMATED_SWITCHER = "AnimatedSwitcher";
+
+  static const List<String> ANIMATED_LIST = [
+    ANIMATED_BUILDER,
+    ANIMATED_CONTAINER,
+    ANIMATED_CROSSFADE,
+    ANIMATED_DEFAULT_TEXTSTYLE,
+    ANIMATED_LIST_STATE,
+    ANIMATED_ALIGN,
+    ANIMATED_OPACITY,
+    ANIMATED_PHYSICAL_MODEL,
+    ANIMATED_POSITION,
+    ANIMATED_SIZE,
+    ANIMATED_WIDGET,
+    ANIMATED_SWITCHER
+  ];
+}

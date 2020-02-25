@@ -1,0 +1,189 @@
+import 'package:flutter/material.dart';
+
+import '../syntax_screen.dart';
+
+class DrawerAnimation extends StatefulWidget {
+  @override
+  _DrawerAnimationState createState() => _DrawerAnimationState();
+}
+
+class _DrawerAnimationState extends State<DrawerAnimation>
+    with SingleTickerProviderStateMixin {
+  Animation _animation;
+  Animation _animationIc;
+  AnimationController _animationController;
+  final _appbar = AppBar();
+  double _appBarSize;
+  double _drag;
+
+  @override
+  void initState() {
+    super.initState();
+    _drag = 0.0;
+    _appBarSize = _appbar.preferredSize.height + 20;
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 700));
+    _animation = Tween<double>(begin: 0.0, end: 0.25).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.bounceOut));
+    _animationIc = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.bounceOut));
+    _animation.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    return Material(
+      child: Container(
+        width: size.width,
+        height: size.height,
+        color: Colors.green.shade50,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              left: -42,
+              top: -size.width +
+                  _appBarSize -
+                  _appBarSize * (_animation.value * 4) - 42,
+              child: RotationTransition(
+                alignment: Alignment.bottomLeft,
+                turns: _animation,
+                child: Container(
+                  height: size.width + 42,
+                  width: size.height,
+                  color: Colors.green,
+                  child: RotatedBox(
+                    quarterTurns: 3,
+                    child: Container(
+                      height: size.width,
+                      width: size.height,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 200,
+                            child: ListTile(
+                              onTap: () {},
+                              leading: Icon(Icons.home),
+                              title: Text(
+                                "Home",
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 22),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: ListTile(
+                              onTap: () {},
+                              leading: Icon(Icons.person),
+                              title: Text(
+                                "Profile",
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 22),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: ListTile(
+                              onTap: () {},
+                              leading: Icon(Icons.info),
+                              title: Text(
+                                "About",
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 22),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: ListTile(
+                              onTap: () {},
+                              leading: Icon(Icons.arrow_back),
+                              title: Text(
+                                "Logout",
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 22),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 200,
+                            child: ListTile(
+                              onTap: () {},
+                              leading: Icon(Icons.help),
+                              title: Text(
+                                "Help",
+                                style: TextStyle(
+                                    color: Colors.black87, fontSize: 22),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: SizedBox(
+                width: 50,
+                height: 100,
+                child: FlatButton(
+                  splashColor: Colors.transparent,
+                  onPressed: () {
+                    _animationController.isCompleted
+                        ? _animationController.reverse()
+                        : _animationController.forward();
+                  },
+                  child: AnimatedIcon(
+                    progress: _animationIc,
+                    icon: AnimatedIcons.menu_close,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: size.width / 2 - 40,
+              top: 40,
+              child: AbsorbPointer(
+                  child: Text(
+                "Drawer",
+                style: TextStyle(fontSize: 22, color: Colors.white),
+              )),
+            ),
+            Positioned(
+                right: 4,
+                top: 26,
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (BuildContext context) {
+                      return SyntaxScreen('DRAWER_ANIMATION');
+                    }));
+                  },
+                  icon: Icon(
+                    Icons.code,
+                    color: Colors.white,
+                  ),
+                )),
+            _animation.value > 0.0
+                ? SizedBox()
+                : Positioned(
+                    left: 100,
+                    top: size.width,
+                    child: Text('Touch menu icon for animation'),
+                  )
+          ],
+        ),
+      ),
+    );
+  }
+}

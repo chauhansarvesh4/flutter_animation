@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+
+class AnimatedDetailScreen extends StatefulWidget {
+  final String animatedType;
+
+  AnimatedDetailScreen(this.animatedType);
+
+  @override
+  _AnimatedDetailScreenState createState() => _AnimatedDetailScreenState();
+}
+
+class _AnimatedDetailScreenState extends State<AnimatedDetailScreen>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  bool _first = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.animatedType),
+      ),
+      body: Center(
+        child: _filterAnimated(),
+      ),
+    );
+  }
+
+  _filterAnimated() {
+    return InkWell(
+      onTap: () {
+        _first = !_first;
+        setState(() {});
+      },
+      child: AnimatedCrossFade(
+        duration: const Duration(seconds: 3),
+        firstChild:
+            const FlutterLogo(style: FlutterLogoStyle.horizontal, size: 100.0),
+        secondChild:
+            const FlutterLogo(style: FlutterLogoStyle.stacked, size: 100.0),
+        crossFadeState:
+            _first ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+      ),
+    );
+  }
+}
